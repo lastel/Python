@@ -2,24 +2,24 @@ import random
 import sys
 import getpass
 
-
-winner=""
+nowins=0
 pwins=0
 cwins=0
-nowins=0
 
 def uinput(text):
   return getpass.getpass(text)
 
-def gewinner(p,c): 
+def gewinner(p,c):
   if p==c:
     winner="n"
   elif(
-    (p=="Stein" and (c=="Schere" or c=="Streichholz")) or
-    (p=="Papier" and (c=="Stein" or c=="Brunnen")) or
-    (p=="Schere" and (c=="Papier" or c=="Streichholz")) or
-    (p=="Brunnen" and (c=="Schere" or c=="Stein")) or
-    (p=="Streichholz" and (c=="Papier" or c=="Brunnen"))
+    (p=="Stein" and (c=="Schere" or c=="Streichholz" or c=="Feuer")) or
+    (p=="Papier" and (c=="Stein" or c=="Brunnen" or c=="Wasser")) or
+    (p=="Schere" and (c=="Papier" or c=="Streichholz" or c=="Wasser")) or
+    (p=="Brunnen" and (c=="Schere" or c=="Stein" or c=="Wasser")) or
+    (p=="Streichholz" and (c=="Papier" or c=="Brunnen" or c=="Wasser")) or
+    (p=="Feuer" and (c=="Schere" or c=="Papier" or c=="Streichholz")) or
+    (p=="Wasser" and (c=="Stein" or c=="Brunnen" or c=="Feuer"))
   ):
     winner="p"
   else:
@@ -27,11 +27,16 @@ def gewinner(p,c):
 
   return winner
 
-erw=input("Willst du mit Brunnen und Streichholz spielen? (j/n)   ")
-if erw == "n":
-  Elemente=["Schere","Stein","Papier"]
-else:
-  Elemente=["Schere","Stein","Papier","Brunnen","Streichholz"]
+print("Willst du mit einer Erweiterung spielen?(0 für nein)")
+print("Wenn ja, mit welcher Erweiterung? Bitte eine ganze Zahl.")
+erw=int(input("1 für Brunnen und Streichholz und 2 für Brunnen, Streichholz, Feuer und Wasser.   "))
+Elemente=["Schere","Stein","Papier"]
+if erw >= 1:
+  Elemente.append("Brunnen")
+  Elemente.append("Streichholz")
+if erw == 2:
+  Elemente.append("Feuer")
+  Elemente.append("Wasser")
 cop=input("Willst du gegen einen zweiten Spieler statt gegen den Computer spielen? (j/n)   ")
 if cop == "j":
   pn="Spieler1"
@@ -42,19 +47,26 @@ else:
 runden=int(input("Wie viele Runden muss man gewinnen?   "))
 
 while 1:
-  if erw == "n":
+  if erw == "0":
     p=int(uinput("%s, Nimmst du Schere(1), Stein(2) oder Papier(3)?   " % pn))
     if cop == "j":
       c=int(uinput("Spieler2, Nimmst du Schere(1), Stein(2) oder Papier(3)?   "))
     else: 
       c=random.randint(1,3)
-  else:
-    p=int(uinput("%s, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4), Streichholz(5)?   " % pn))
+  elif erw == "1":
+    p=int(uinput("%s, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4) oder Streichholz(5)?   " % pn))
     if cop == "j":
-      c=int(uinput("Spieler2, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4), Streichholz(5)?   "))
+      c=int(uinput("Spieler2, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4) oder Streichholz(5)?   "))
     else:
       c=random.randint(1,5)
+  else:
+    p=int(uinput("%s, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4), Streichholz(5), Feuer(6) oder Wasser(7)?   " % pn))
+    if cop == "j":
+      c=int(uinput("Spieler2, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4), Streichholz(5), Feuer(6) oder Wasser(7) ?   "))
+    else:
+      c=random.randint(1,7)
 
+  print(Elemente,p,c)
   p=Elemente[p-1]
   c=Elemente[c-1]
   
