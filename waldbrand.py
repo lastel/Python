@@ -20,47 +20,47 @@ class Waldbrand:
         self.brand(self, spielfeld, quadrat)
 
     def brand(self, spielfeld, quadrat):
-        for l in spielfeld:
-            for e in range(len(l)):
-                if l[e] == "A":
+        for x in spielfeld:
+            for y in range(len(x)):
+                if x[y] == "A":
                     z = random.randint(1, 4)
                     if z == 1:
-                        l[e] = "?"
+                        x[y] = "?"
         print("\nBrandstiftung\n")
         ausbreitungen = 0
         self.ausgabe(spielfeld)
-        self.ausbreitung(self, spielfeld, quadrat, ausbreitungen)
+        self.ausbreitung(self, spielfeld, ausbreitungen)
 
-    def ausbreitung(self, spielfeld, quadrat, ausbreitungen):
+    def ausbreitung(self, spielfeld, ausbreitungen):
+        braende = []
         wechsel = False
         ausbreitungen += 1
-        k_spielfeld = spielfeld
-        for lz in range(len(spielfeld)):
-            l = spielfeld[lz]
-            k_l = l
-            for e in range(len(l)):
-                if l[e] == "?":
-                    l[e] = "."
-                if e - 1 > 0:
-                    if k_l[e] == "A" and k_l[e - 1] == "?":
-                        l[e] = "?"
-                        wechsel = True
-                if e + 1 < len(spielfeld):
-                    if k_l[e] == "A" and k_l[e + 1] == "?":
-                        l[e] = "?"
-                        wechsel = True
-                if len(l) - 1 > 0:
-                    if k_l[e] == "A" and k_spielfeld[lz - 1][e] == "?":
-                        l[e] = "?"
-                        wechsel = True
-                if len(l) + 1 < len(spielfeld):
-                    if k_l[e] == "A" and k_spielfeld[lz + 1][e] == "?":
-                        l[e] = "?"
-                        wechsel = True
+        for x in range(len(spielfeld)):
+            for y in range(len(spielfeld)):
+                if spielfeld[x][y] == "?":
+                    braende.append((x, y))
+        for feuer in braende:
+            spielfeld[feuer[0]][feuer[1]] = "o"
+            if feuer[0] - 1 >= 0:
+                if spielfeld[feuer[0] - 1][feuer[1]] == "A":
+                    spielfeld[feuer[0] - 1][feuer[1]] = "?"
+                    wechsel = True
+            if feuer[0] + 1 < len(spielfeld):
+                if spielfeld[feuer[0] + 1][feuer[1]] == "A":
+                    spielfeld[feuer[0] + 1][feuer[1]] = "?"
+                    wechsel = True
+            if feuer[1] - 1 >= 0:
+                if spielfeld[feuer[0]][feuer[1] - 1] == "A":
+                    spielfeld[feuer[0]][feuer[1] - 1] = "?"
+                    wechsel = True
+            if feuer[1] + 1 < len(spielfeld):
+                if spielfeld[feuer[0]][feuer[1] + 1] == "A":
+                    spielfeld[feuer[0]][feuer[1] + 1] = "?"
+                    wechsel = True
         if wechsel is True:
             print(("\nAusbreitung %s\n" % ausbreitungen))
             self.ausgabe(spielfeld)
-            self.ausbreitung(self, spielfeld, quadrat, ausbreitungen)
+            self.ausbreitung(self, spielfeld, ausbreitungen)
         else:
             pass
 
