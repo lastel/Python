@@ -112,10 +112,10 @@ class Waldbrand:
         else:
             self.brand(self, spielfeld, wartezeit)
 
-    def ausgabe(liste_all):
-        for l in liste_all:
-            for e in l:
-                sys.stdout.write((e))
+    def ausgabe(spielfeld):
+        for x in spielfeld:
+            for y in x:
+                sys.stdout.write((y))
                 sys.stdout.write((" "))
             print()
 
