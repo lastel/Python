@@ -88,14 +88,25 @@ def unentschieden():
 
 def ausgabe(spielfeld):
         yl = 0
+        sys.stdout.write((" "))
         for xl in range(len(spielfeld)):
             sys.stdout.write((" " + str(xl)))
         print()
+        sys.stdout.write(("┌"))
+        for xl in range(len(spielfeld) * 2 + 1):
+            sys.stdout.write(("─"))
+        sys.stdout.write(("┐"))
+        print()
         for x in spielfeld:
+            sys.stdout.write(("│"))
             for y in x:
                 sys.stdout.write((" " + y))
-            sys.stdout.write((" " + str(yl)))
+            sys.stdout.write((" │" + str(yl)))
             print()
             yl += 1
+        sys.stdout.write(("└"))
+        for xl in range(len(spielfeld) * 2 + 1):
+            sys.stdout.write(("─"))
+        sys.stdout.write(("┘"))
 
 feld()
