@@ -14,7 +14,7 @@ def feld():
 
 
 def teamwahl(spielfeld):
-    print("\nMuster Wahl\n")
+    print("\nMusterwahl\n")
     while 1:
         p_muster = input("Willst du X oder O haben?   ")
         if p_muster == ("x" or "X"):
@@ -26,7 +26,7 @@ def teamwahl(spielfeld):
             p2_muster = "X"
             break
         else:
-            print("Ungültige eingabe, versuche es nochmal!")
+            print("Ungültige Eingabe, versuche es nochmal!")
     user = "Spieler 1"
     spiel(spielfeld, p_muster, p2_muster, user)
 
@@ -52,7 +52,7 @@ def spiel(spielfeld, p_muster, p2_muster, user):
                 else:
                     print("Auf diesem Feld ist schon jemand Wähle nochmal!")
             except:
-                print("Ungültige eingabe, versuche es nochmal!")
+                print("Ungültige Eingabe, versuche es nochmal!")
         win(spielfeld, p_muster, p2_muster, user, user_muster)
     else:
         unentschieden()
@@ -87,6 +87,7 @@ def unentschieden():
 
 
 def ausgabe(spielfeld):
+        print()
         yl = 0
         sys.stdout.write((" "))
         for xl in range(len(spielfeld)):
@@ -108,5 +109,7 @@ def ausgabe(spielfeld):
         for xl in range(len(spielfeld) * 2 + 1):
             sys.stdout.write(("─"))
         sys.stdout.write(("┘"))
+        print()
+        print()
 
 feld()
