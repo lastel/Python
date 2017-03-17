@@ -48,7 +48,7 @@ class Waldbrand:
                 if spielfeld[x][y] == "A":
                     abgebrannt = False
         if abgebrannt is not False:
-            self.ende(spielfeld)
+            self.ende(self, spielfeld)
         for feuer in braende:
             spielfeld[feuer[0]][feuer[1]] = "o"
             if feuer[0] - 1 >= 0:
@@ -119,7 +119,7 @@ class Waldbrand:
                 sys.stdout.write((" "))
             print()
 
-    def ende(spielfeld):
+    def ende(self, spielfeld):
         self.ausgabe(spielfeld)
         print("\n\n\nGame Over")
         print("Der Wald ist komplett abgebrannt")
