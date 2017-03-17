@@ -57,6 +57,5 @@ def spiel(v1, v2, user):
             a = a.decode()
             v1.send(str.encode(a))
             user = "Spieler 1"
-        print(a)
 
 start(c1, c2, r, beginner)
