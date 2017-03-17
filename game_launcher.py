@@ -1,0 +1,3 @@
+import schere_stein_papier
+import waldbrand
+import tic_tac_toe
