@@ -14,19 +14,23 @@ def spielerwahl(server):
         aussage = "OK, du spielst jetzt auf einem Server"
         i = "S"
         port = 9999
-        while 1:
+        server.connect((host, port))
+        try:
+            a = server.recv(1024)
+        except:
+            server.close()
             try:
+                server = socket.socket()
+                server.settimeout(1)
+                port = 9998
                 server.connect((host, port))
                 a = server.recv(1024)
-                print(a.decode())
-                break
             except:
-                if port == 9999:
-                    port = 9998
-                else:
-                    print("Der Server ist offline/auf einem anderem Port oder es gibt ihn nicht!")
-                    sys.exit()
+                print("Der Server ist offline/auf einem anderem Port oder es gibt ihn nicht!")
+                server.close()
+                sys.exit()
         server.settimeout(10000)
+        print(a.decode())
         a = server.recv(1024)
         print(a.decode())
     else:

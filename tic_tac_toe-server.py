@@ -23,6 +23,8 @@ def start(c1, c2, r, beginner):
     print("Client 1 joined the Game")
     v1.send(str.encode("You are Client 1"))
     v2, addr2 = c2.accept()
+    v2.close()
+    v2, addr2 = c2.accept()
     print("Client 2 joined the Game")
     v2.send(str.encode("You are Client 2"))
     v1.send(str.encode("The game starts and %s is the beginner" % beginner))
