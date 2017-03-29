@@ -14,8 +14,8 @@ def spielerwahl(server):
         aussage = "OK, du spielst jetzt auf einem Server"
         i = "S"
         port = 9999
-        server.connect((host, port))
         try:
+            server.connect((host, port))
             a = server.recv(1024)
         except:
             server.close()
