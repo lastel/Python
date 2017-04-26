@@ -88,7 +88,7 @@ def gefuehl():
             </form>
         ''' % (escape(session['text']),escape(session['gefuehl']))
 
-app.secret_key = None
+app.secret_key = "Hallo"
 
 if __name__ == "__main__":
     app.run()
