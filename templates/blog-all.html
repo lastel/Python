@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<body>
+  {%- for row in rows %}
+    <post>
+      {% if post %}
+        <p>Post {{post}}</p>
+      {% else %}
+        <p>Post {{ loop.index }}<p>
+      {% endif %}
+      <center>
+        <p>{{ row[0] }}</p>
+      </center>
+      <br>
+        <p>{{ row[1] }}</p>
+      <br>
+      <br>
+    </post>
+  {%endfor%}
+</body>
+

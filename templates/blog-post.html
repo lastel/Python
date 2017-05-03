@@ -1,0 +1,10 @@
+<!doctype html>
+{% import 'forms.html' as forms %}
+<form method="post">
+<br />
+<br />
+<p>Titel</p>
+<p>{{ forms.input('titel') }}</p>
+<p>Inhalt</p>
+<p>{{ forms.textarea('inhalt') }}</p>
+<p><input type=submit value=Bestätige>
