@@ -16,12 +16,31 @@ def inp():
         titel = request.form['titel']
         inhalt = request.form['inhalt']
         conn = sqlite3.connect('database.db')
-        conn.execute("insert into posts (titel,inhalt) Values (?,?)", (titel, inhalt) )
+        cur = conn.cursor()
+        cur.execute("insert into posts (titel,inhalt) Values (?,?)", (titel, inhalt) )
+        cur.fetchall()
+        number = cur.lastrowid
         conn.commit()
         conn.close()
-        return "Erfolgreich gepostet"
+        return redirect(url_for('out', number=number))
 
     return render_template('blog-post.html')
+
+
+@app.route("/blog/edit", methods=['GET', 'POST'])
+def edit2():
+    if request.method == 'POST':
+        number = request.form['number']
+        return redirect(url_for('edit', number=number))
+    return render_template('edit2')
+
+
+@app.route("/blog/edit/<number>", methods=['GET', 'POST'])
+@app.route("/blog/edit/<number>/", methods=['GET', 'POST'])
+def edit(number=None):
+    if request.method == 'POST':
+        return ""
+    return render_template('edit')
 
 
 @app.route("/blog")
