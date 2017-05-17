@@ -3,6 +3,22 @@ import sqlite3
 app = Flask(__name__)
 
 
+@app.route("/game")
+@app.route("/game/")
+def game():
+    return render_template('basic.html')
+
+
+@app.route("/play")
+def play():
+    return "PLAY!"
+
+
+@app.route("/feld")
+def feld():
+    return render_template('feld.html')
+
+
 @app.route("/hallo/")
 @app.route("/hallo/<name>")
 def hallo(name=None):
