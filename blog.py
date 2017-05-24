@@ -14,6 +14,11 @@ def play():
     return "PLAY!"
 
 
+@app.route("/spiel")
+def spiel():
+    return render_template('spiel.html')
+
+
 @app.route("/feld")
 def feld():
     return render_template('feld.html')

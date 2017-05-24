@@ -1,0 +1,33 @@
+<head>
+<script type="text/javascript" src="wz_jsgraphics.js">
+</script>
+<div id="myCanvas" style="position:relative;height:250px;width:100%;"></div>
+...
+<div id="anotherCanvas" style="position:relative;height:100px;width:300px;"></div>
+</head>
+<body>
+<script type="text/javascript">
+<!--
+var jg = new jsGraphics("myCanvas");
+//-->
+</script>
+<script type="text/javascript">
+<!--
+function myDrawFunction()
+{
+
+  jg.setColor("#ff0000"); // rot
+  jg.drawLine(10, 113, 220, 55); // Koordinaten auf Zeichenfläche bezogen
+  jg.setColor("#0000ff"); // blau
+  jg.fillRect(110, 120, 30, 60);
+  jg.paint();
+}
+
+var jg = new jsGraphics("myCanvas");
+
+
+myDrawFunction();
+
+//-->
+</script> 
+</body>

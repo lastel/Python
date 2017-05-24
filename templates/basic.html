@@ -13,18 +13,12 @@ alert("eins")
 <script>
 $(document).ready(function(){
 /* Hier der jQuery-Code */
-$('#r1f1').click(function(){
-    $('#r1f1').html(' O ');
-    });
-});
-</script>
-
-<script>
-$(document).ready(function(){
-/* Hier der jQuery-Code */
 $('#t1').click(function(){
-		alert('Spiel wird gestartet');
-		$.get("http://127.0.0.1:5000/feld", function(data){$('#text').html(data)});
+	alert('Spiel wird gestartet');
+	
+    });
+$('#t2').click(function(){
+    $('#t2').html("wie geht's");
     });
 });
 </script>
@@ -34,5 +28,6 @@ $('#t1').click(function(){
 <body>
 <text id=text>
 <p id="t1">hallo</p>
+<p id="t2">du</p>
 </text>
 </body></html>
