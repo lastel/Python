@@ -89,13 +89,13 @@ def spiel():
     print("Willst du mit einer Erweiterung spielen?(0 für nein)")
     print("Wenn ja, mit welcher Erweiterung? Bitte eine ganze Zahl.")
     erw = rangedInput("1 für Brunnen und Streichholz und 2 für Brunnen, Streichholz, Feuer und Wasser.     ", range(2))
-    Elemente = ["Schere", "Stein", "Papier"]
+    elements = ["Schere", "Stein", "Papier"]
     if erw >= 1:
-        Elemente.append("Brunnen")
-        Elemente.append("Streichholz")
+        elements.append("Brunnen")
+        elements.append("Streichholz")
     if erw == 2:
-        Elemente.append("Feuer")
-        Elemente.append("Wasser")
+        elements.append("Feuer")
+        elements.append("Wasser")
     isPlayer = None
     while isPlayer is None:
         isPlayer = decission(input("Willst du gegen einen zweiten Spieler statt gegen den Computer spielen? (j/n)     "))
@@ -108,38 +108,16 @@ def spiel():
     runden = int(input("Wie viele Runden muss man gewinnen?     "))
 
     while 1:
-        """
-        if erw == "0":
-            p1_input = int(uinput("%s, Nimmst du Schere(1), Stein(2) oder Papier(3)?     " % p1name))
-            if isPlayer:
-                p2_input = int(uinput("Spieler2, Nimmst du Schere(1), Stein(2) oder Papier(3)?     "))
-            else:
-                p2_input = random.randint(1, 3)
-        elif erw == "1":
-            p1_input = int(uinput("%s, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4) oder Streichholz(5)?     " % p1name))
-            if isPlayer:
-                p2_input = int(uinput("Spieler2, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4) oder Streichholz(5)?     "))
-            else:
-                p2_input = random.randint(1, 5)
-        else:
-            p1_input = int(uinput("%s, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4), Streichholz(5), Feuer(6) oder Wasser(7)?     " % p1name))
-            if isPlayer:
-                p2_input = int(uinput("Spieler2, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4), Streichholz(5), Feuer(6) oder Wasser(7) ?     "))
-            else:
-                p2_input = random.randint(1, 7)
-
-        """
-
-        p1_input =     playerInput(p1name, Elemente)
+        p1_input =     playerInput(p1name, elements)
         if isPlayer:
-            p2_input = playerInput(p2name, Elemente)
+            p2_input = playerInput(p2name, elements)
         else:
-            p2_input = random.randint(length(Elemente)) + 1
+            p2_input = random.randint(length(elements)) + 1
 
 
-        print(Elemente, p1_input, p2_input)
-        p1_input = Elemente[p1_input - 1]
-        p2_input = Elemente[p2_input - 1]
+        #print(elements, p1_input, p2_input)
+        p1_input = elements[p1_input - 1]
+        p2_input = elements[p2_input - 1]
 
         roundWinner = gewinner(p1_input, p2_input)
 
