@@ -2,39 +2,93 @@ import random
 import sys
 import getpass
 
-nowins = 0
-pwins = 0
-cwins = 0
-
 
 def uinput(text):
     return getpass.getpass(text)
 
 
-def gewinner(p, c):
-    if p == c:
-        winner = "n"
-    elif(
-        (p == "Stein" and (c == "Schere" or c == "Streichholz" or c == "Feuer")) or
-        (p == "Papier" and (c == "Stein" or c == "Brunnen" or c == "Wasser")) or
-        (p == "Schere" and (c == "Papier" or c == "Streichholz" or c == "Wasser")) or
-        (p == "Brunnen" and (c=="Schere" or c=="Stein" or c=="Wasser")) or
-        (p == "Streichholz" and (c == "Papier" or c == "Brunnen" or c == "Wasser")) or
-        (p == "Feuer" and (c == "Schere" or c == "Papier" or c == "Streichholz")) or
-        (p == "Wasser" and (c == "Stein" or c == "Brunnen" or c == "Feuer"))
-    ):
-        winner = "p"
-    else:
-        winner = "c"
+def decission(decission):
+    decission = decission.lower()
+    decission_list = ["j", "y", "ja", "yes", None, "n", "nein", "no"]
+    if not decission in decission_list or decission == None:
+        return None
+    return decission_list.index(decission) < decission_list.index(None)
 
-    return winner
+
+def replace_last(string, old_pattern, new_pattern):
+    start = string.rsplit(old_pattern, 1)
+    return new_pattern.join(start)
+
+
+def display_elements(playerName, elements):
+    string = "%s, nimmst du " % playerName
+    for index in range(0, len(elements)):
+        element = elements[index]
+        if index != 0:
+            string += ", "
+        string += "%s(%s)" % (element, index + 1)
+    string = replace_last(string, ", ", " oder ") + "?     "
+    return string
+
+
+def rangedInput(message, intRange, visible = True):
+    if visible:
+        input_func = input
+    else:
+        input_func = uinput
+    while 1:
+        try:
+            i = input_func(message)
+            i = int(i)
+            if i in intRange:
+                return i
+        except KeyboardInterrupt:
+            print()
+            exit()
+        except ValueError:
+            pass
+
+def playerInput(name, elements):
+    return rangedInput(
+        display_elements(
+            name,
+            elements
+        ),
+        range(
+            1,
+            len(elements) + 1
+        ),
+        False
+    )
+
+
+def gewinner(p1_input, p2_input):
+    if p1_input == p2_input:
+        roundWinner = None
+    elif(
+        (p1_input == "Stein"       and (p2_input == "Schere" or p2_input == "Streichholz" or p2_input == "Feuer"      )) or
+        (p1_input == "Papier"      and (p2_input == "Stein"  or p2_input == "Brunnen"     or p2_input == "Wasser"     )) or
+        (p1_input == "Schere"      and (p2_input == "Papier" or p2_input == "Streichholz" or p2_input == "Wasser"     )) or
+        (p1_input == "Brunnen"     and (p2_input == "Schere" or p2_input == "Stein"       or p2_input == "Wasser"     )) or
+        (p1_input == "Streichholz" and (p2_input == "Papier" or p2_input == "Brunnen"     or p2_input == "Wasser"     )) or
+        (p1_input == "Feuer"       and (p2_input == "Schere" or p2_input == "Papier"      or p2_input == "Streichholz")) or
+        (p1_input == "Wasser"      and (p2_input == "Stein"  or p2_input == "Brunnen"     or p2_input == "Feuer"      ))
+    ):
+        roundWinner = 1
+    else:
+        roundWinner = 2
+
+    return roundWinner
 
 
 
 def spiel():
+    nowins = 0
+    p1wins = 0
+    p2wins = 0
     print("Willst du mit einer Erweiterung spielen?(0 für nein)")
     print("Wenn ja, mit welcher Erweiterung? Bitte eine ganze Zahl.")
-    erw = int(input("1 für Brunnen und Streichholz und 2 für Brunnen, Streichholz, Feuer und Wasser.     "))
+    erw = rangedInput("1 für Brunnen und Streichholz und 2 für Brunnen, Streichholz, Feuer und Wasser.     ", range(2))
     Elemente = ["Schere", "Stein", "Papier"]
     if erw >= 1:
         Elemente.append("Brunnen")
@@ -42,60 +96,73 @@ def spiel():
     if erw == 2:
         Elemente.append("Feuer")
         Elemente.append("Wasser")
-    cop = input("Willst du gegen einen zweiten Spieler statt gegen den Computer spielen? (j/n)     ")
-    if cop == "j":
-        pn = "Spieler1"
-        cn = "Spieler2"
+    isPlayer = None
+    while isPlayer is None:
+        isPlayer = decission(input("Willst du gegen einen zweiten Spieler statt gegen den Computer spielen? (j/n)     "))
+    if isPlayer:
+        p1name = "Spieler1"
+        p2name = "Spieler2"
     else:
-        pn = "Spieler"
-        cn = "Computer"
+        p1name = "Spieler"
+        p2name = "Computer"
     runden = int(input("Wie viele Runden muss man gewinnen?     "))
 
     while 1:
+        """
         if erw == "0":
-            p =int(uinput("%s, Nimmst du Schere(1), Stein(2) oder Papier(3)?     " % pn))
-            if cop == "j":
-                c = int(uinput("Spieler2, Nimmst du Schere(1), Stein(2) oder Papier(3)?     "))
+            p1_input = int(uinput("%s, Nimmst du Schere(1), Stein(2) oder Papier(3)?     " % p1name))
+            if isPlayer:
+                p2_input = int(uinput("Spieler2, Nimmst du Schere(1), Stein(2) oder Papier(3)?     "))
             else:
-                c = random.randint(1, 3)
+                p2_input = random.randint(1, 3)
         elif erw == "1":
-            p =int(uinput("%s, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4) oder Streichholz(5)?     " % pn))
-            if cop == "j":
-                c = int(uinput("Spieler2, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4) oder Streichholz(5)?     "))
+            p1_input = int(uinput("%s, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4) oder Streichholz(5)?     " % p1name))
+            if isPlayer:
+                p2_input = int(uinput("Spieler2, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4) oder Streichholz(5)?     "))
             else:
-                c = random.randint(1, 5)
+                p2_input = random.randint(1, 5)
         else:
-            p = int(uinput("%s, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4), Streichholz(5), Feuer(6) oder Wasser(7)?     " % pn))
-            if cop == "j":
-                c = int(uinput("Spieler2, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4), Streichholz(5), Feuer(6) oder Wasser(7) ?     "))
+            p1_input = int(uinput("%s, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4), Streichholz(5), Feuer(6) oder Wasser(7)?     " % p1name))
+            if isPlayer:
+                p2_input = int(uinput("Spieler2, Nimmst du Schere(1), Stein(2), Papier(3), Brunnen(4), Streichholz(5), Feuer(6) oder Wasser(7) ?     "))
             else:
-                c = random.randint(1, 7)
+                p2_input = random.randint(1, 7)
 
-        print(Elemente, p, c)
-        p = Elemente[p - 1]
-        c = Elemente[c - 1]
+        """
 
-        winner = gewinner(p, c)
-
-        if winner == "p":
-            winner = pn
-            pwins += 1
-        elif winner == "c":
-            winner = cn
-            cwins += 1
+        p1_input =     playerInput(p1name, Elemente)
+        if isPlayer:
+            p2_input = playerInput(p2name, Elemente)
         else:
-            winner = "keiner"
+            p2_input = random.randint(length(Elemente)) + 1
+
+
+        print(Elemente, p1_input, p2_input)
+        p1_input = Elemente[p1_input - 1]
+        p2_input = Elemente[p2_input - 1]
+
+        roundWinner = gewinner(p1_input, p2_input)
+
+        if roundWinner == 1:
+            roundWinnerName = p1name
+            p1wins += 1
+        elif roundWinner == 2:
+            roundWinnerName = p2name
+            p2wins += 1
+        else:
+            roundWinnerName = "keiner"
             nowins += 1
 
-        print("%s hat %s gewählt und %s hat %s gewählt und desswegen hat %s die Runde gewonnen." % (pn, p, cn, c, winner))
-        print("%s hat nun %s mal gewonnen und %s %s mal. Es muss %s mal gewonnen werden." % (pn, pwins, cn, cwins, runden))
-        if pwins >= runden:
-            ewinner = pn
+        print("%s hat %s gewählt und %s hat %s gewählt und desswegen hat %s die Runde gewonnen." % (p1name, p1_input, p2name, p2_input, roundWinnerName))
+        print("%s hat nun %s mal gewonnen und %s %s mal. Es muss %s mal gewonnen werden."        % (p1name, p1wins,   p2name, p2wins,   runden         ))
+        if p1wins >= runden:
+            gameWinner = p1name
             break
-        elif cwins >= runden:
-            ewinner = cn
+        elif p2wins >= runden:
+            gameWinner = p2name
             break
 
-    print("Damit hat %s das Spiel gewonnen." % ewinner)
+    print("Damit hat %s das Spiel gewonnen." % gameWinner)
 
-spiel()
+if __name__ == "__main__":
+    spiel()
